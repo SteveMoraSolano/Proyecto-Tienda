@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-     <div>Saludos</div>
+        <header th:replace="layout/plantilla :: header"></header>
+     <!--<div>Saludos</div>
         <p th:text="${TextoSaludo}"></p>
         <h1>Cliente desde una clase</h1>
         <p>Nombre:<span th:text="${cliente.nombre}"> </span></p>
@@ -20,13 +21,13 @@
     <table border="1">
         <tr>
             <td>Nombre</td>
-            <td>Apellidos</td><!-- comment -->
+            <td>Apellidos</td>
             <td>Correo</td>
             <td>Telefono</td>
         </tr>
         <tr th:each="item : ${Clientes}">
             <td th:text="${item.nombre}"></td>
-            <td th:text="${item.apellido}"></td><!-- comment -->
+            <td th:text="${item.apellido}"></td>
         <td th:text="${item.correo}"></td>
         <td th:text="${item.telefono}"></td>
         </tr>
@@ -35,25 +36,32 @@
     <div th:if="${clientes == null or !clientes.empty}">
         La lista de clientes esta vacia
     </div>
-    <br><h1>Clientes desde una lista de base de datos</h1>
+    --><br><h1>Clientes desde una lista de base de datos</h1>
+    <br>
+    <a th:href="@{/nuevoCliente}">Nuevo Cliente </a>
     <div th:if="${clientesDB != null and !clientesDB.empty}">
     <table border="1">
         <tr>
             <td>Nombre</td>
-            <td>Apellidos</td><!-- comment -->
+            <td>Apellidos</td>
             <td>Correo</td>
             <td>Telefono</td>
+            <td>Modificar</td>
+            <td>Eliminar</td>
         </tr>
-        <tr th:each="item : ${ClientesDB}">
+        <tr th:each="item : ${clientesDB}">
             <td th:text="${item.nombre}"></td>
-            <td th:text="${item.apellido}"></td><!-- comment -->
+            <td th:text="${item.apellidos}"></td>
         <td th:text="${item.correo}"></td>
         <td th:text="${item.telefono}"></td>
+        <td><a th:href="@{modificarCliente/} + $(item.idcliente)">Modicar</a></td>
+        <td><a th:href="@{eliminarCliente/} + $(item.idcliente)">Eliminar</a></td>
         </tr>
     </table>
     </div>
     <div th:if="${clientesDB == null or !clientesDB.empty}">
         La lista de clientes esta vacia
     </div>
+    <footer th:replace="layout/plantilla :: footer"></footer>
     </body>
 </html>
