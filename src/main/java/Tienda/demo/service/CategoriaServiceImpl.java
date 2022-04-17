@@ -4,10 +4,8 @@
  */
 package Tienda.demo.service;
 
-import Tienda.demo.dao.ClienteDao;
-import Tienda.demo.dao.CreditoDao;
-import Tienda.demo.domain.Cliente;
-import Tienda.demo.domain.Credito;
+import Tienda.demo.dao.CategoriaDao;
+import Tienda.demo.domain.Categoria;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,40 +18,40 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
     @Service
-public class ClienteServiceImpl implements ClienteService{
+public class CategoriaServiceImpl implements CategoriaService{
 @Autowired
-private ClienteDao clienteDao;
-@Autowired
-private CreditoDao creditoDao;
+private CategoriaDao categoriaDao;
 
     @Override
     @Transactional(readOnly=true)
-    public List<Cliente> getClientes() {
-        return (List<Cliente>)clienteDao.findAll();
+    public List<Categoria> getCategorias(boolean activos) {
+        var lista=(List<Categoria>)categoriaDao.findAll();
+        if(activos){
+            lista.removeIf(e -> !e.isActivo());
+            
+        }
+        return lista;
     }
 
     @Override
     @Transactional
-    public void save(Cliente cliente) {
-        Credito credito=cliente.getCredito();
-        credito= creditoDao.save(credito);
-        cliente.setCredito(credito);
-       clienteDao.save(cliente);
+    public void save(Categoria categoria) {
+       categoriaDao.save(categoria);
     }
 
     @Override
     @Transactional
-    public void delete(Cliente cliente) {
- clienteDao.delete(cliente);
+    public void delete(Categoria categoria) {
+ categoriaDao.delete(categoria);
     }
     
     @Transactional(readOnly=true)
-    public Cliente getClientes(Cliente cliente) {
-        return clienteDao.findById(cliente.getIdcliente()).orElse(null);
+    public Categoria getCategorias(Categoria categoria) {
+        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
     }
 
     @Override
-    public Cliente getCliente(Cliente cliente) {
+    public Categoria getCategoria(Categoria categoria) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
